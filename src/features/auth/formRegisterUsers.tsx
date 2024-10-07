@@ -1,11 +1,6 @@
 import { Button } from "flowbite-react";
-import { useFormik } from "formik";
 import React from "react";
 export default function FormRegisterUsers() {
-  function onSubmit() {
-    console.log("submit");
-  }
-
   return (
     <form className="max-w-sm mx-auto">
       <div className="mb-5">
@@ -54,7 +49,7 @@ export default function FormRegisterUsers() {
       </div>
 
       <div className="flex items-start mb-5">
-        <div className="flex items-center h-5">
+        <div className="flex items-center h-5 mr-1">
           <input
             id="terms"
             type="checkbox"
