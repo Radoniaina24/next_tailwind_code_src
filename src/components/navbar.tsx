@@ -2,12 +2,13 @@
 import React from "react";
 import { Button, Navbar } from "flowbite-react";
 import Link from "next/link";
+import Image from "next/image";
 export default function NavigationBar() {
   return (
     <div className="container mx-auto bg-gray-100 my-2">
       <Navbar fluid rounded className=" e px-5">
         <Navbar.Brand href="https://flowbite.com/">
-          <img
+          <Image
             src="https://flowbite.com/docs/images/logo.svg"
             className="mr-3 h-6 sm:h-9"
             alt="Flowbite Logo"
