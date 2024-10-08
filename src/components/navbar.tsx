@@ -13,6 +13,7 @@ export default function NavigationBar() {
             className="mr-3 h-6 sm:h-9"
             alt="Flowbite Logo"
             width={20}
+            height={20}
           />
           <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
             Flowbite
