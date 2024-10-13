@@ -5,8 +5,10 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import User from "@/interface/user";
 import Input from "@/components/form/Input";
+import { useAddUserMutation, useGetAllUserQuery } from "@/lib/api/authApi";
+import ButtonLoading from "@/components/button/ButtonLoading";
 const UserSchema = yup.object({
-  name: yup.string().required("Ce nom est indispensable"),
+  fullname: yup.string().required("Ce nom est indispensable"),
   email: yup
     .string()
     .email("Assurez-vous que le courriel est valide.")
@@ -14,18 +16,29 @@ const UserSchema = yup.object({
   password: yup.string().required("Il est nécessaire d'avoir ce mot de passe"),
 });
 const initialValues: Omit<User, "_id"> = {
-  name: "",
+  fullname: "",
   email: "",
   password: "",
 };
+
 export default function FormRegisterUsers() {
+  const [addUser, responseAddUser] = useAddUserMutation();
+  async function handleRegisterUser(newUserAccount: any) {
+    try {
+      await addUser(newUserAccount).unwrap();
+      console.log("success");
+    } catch (error: any) {
+      console.log(error?.data?.message);
+    }
+  }
   const formik = useFormik({
     initialValues,
     validationSchema: UserSchema,
     onSubmit,
   });
-  function onSubmit() {
+  async function onSubmit() {
     console.log(values);
+    handleRegisterUser(values);
     resetForm();
   }
   const { values, handleChange, handleSubmit, errors, touched, resetForm } =
@@ -39,11 +52,11 @@ export default function FormRegisterUsers() {
       <Input
         type="text"
         label="Name"
-        id="name"
-        value={values.name}
+        id="fullname"
+        value={values.fullname}
         onChange={handleChange}
-        error={errors.name}
-        touched={touched.name}
+        error={errors.fullname}
+        touched={touched.fullname}
       />
       <Input
         type="email"
@@ -63,9 +76,13 @@ export default function FormRegisterUsers() {
         error={errors.password}
         touched={touched.password}
       />
-      <Button type="submit" size={"sm"} className="bg-blue-600">
-        Register account
-      </Button>
+      {responseAddUser?.isLoading ? (
+        <ButtonLoading />
+      ) : (
+        <Button type="submit" size={"sm"} className="bg-blue-600">
+          Register account
+        </Button>
+      )}
     </form>
   );
 }
