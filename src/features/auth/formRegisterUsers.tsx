@@ -7,6 +7,10 @@ import User from "@/interface/user";
 import Input from "@/components/form/Input";
 import { useAddUserMutation, useGetAllUserQuery } from "@/lib/api/authApi";
 import ButtonLoading from "@/components/button/ButtonLoading";
+import {
+  ToastNotificationError,
+  ToastNotificationSuccess,
+} from "@/components/Toast/ToastNotification";
 const UserSchema = yup.object({
   fullname: yup.string().required("Ce nom est indispensable"),
   email: yup
@@ -49,9 +53,10 @@ export default function FormRegisterUsers() {
       autoComplete="off"
       className="max-w-sm mx-auto"
     >
+      <ToastNotificationSuccess message="Error" />
       <Input
         type="text"
-        label="Name"
+        label="Nom"
         id="fullname"
         value={values.fullname}
         onChange={handleChange}
@@ -80,7 +85,7 @@ export default function FormRegisterUsers() {
         <ButtonLoading />
       ) : (
         <Button type="submit" size={"sm"} className="bg-blue-600">
-          Register account
+          S'inscrire
         </Button>
       )}
     </form>
