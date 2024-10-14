@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { StoreProvider } from "./StoreProvider";
 import NavigationBar from "@/components/navbar";
+import SnackbarProvider from "@/lib/context/SnackbarContext";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -31,8 +32,10 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <NavigationBar />
-          <div className="container mx-auto">{children}</div>
+          <SnackbarProvider>
+            <NavigationBar />
+            <div className="container mx-auto">{children}</div>
+          </SnackbarProvider>
         </body>
       </html>
     </StoreProvider>

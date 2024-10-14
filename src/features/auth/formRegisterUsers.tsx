@@ -5,12 +5,9 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import User from "@/interface/user";
 import Input from "@/components/form/Input";
-import { useAddUserMutation, useGetAllUserQuery } from "@/lib/api/authApi";
+import { useAddUserMutation } from "@/lib/api/authApi";
 import ButtonLoading from "@/components/button/ButtonLoading";
-import {
-  ToastNotificationError,
-  ToastNotificationSuccess,
-} from "@/components/Toast/ToastNotification";
+import { useSnackbar } from "@/lib/context/SnackbarContext";
 const UserSchema = yup.object({
   fullname: yup.string().required("Ce nom est indispensable"),
   email: yup
@@ -26,13 +23,14 @@ const initialValues: Omit<User, "_id"> = {
 };
 
 export default function FormRegisterUsers() {
+  const { showSnackbar } = useSnackbar();
   const [addUser, responseAddUser] = useAddUserMutation();
   async function handleRegisterUser(newUserAccount: any) {
     try {
       await addUser(newUserAccount).unwrap();
-      console.log("success");
+      showSnackbar("User created successfully", "success"); // message, type(error, success)
     } catch (error: any) {
-      console.log(error?.data?.message);
+      showSnackbar(error?.data?.message, "error");
     }
   }
   const formik = useFormik({
@@ -41,7 +39,6 @@ export default function FormRegisterUsers() {
     onSubmit,
   });
   async function onSubmit() {
-    console.log(values);
     handleRegisterUser(values);
     resetForm();
   }
@@ -53,7 +50,6 @@ export default function FormRegisterUsers() {
       autoComplete="off"
       className="max-w-sm mx-auto"
     >
-      <ToastNotificationSuccess message="Error" />
       <Input
         type="text"
         label="Nom"
