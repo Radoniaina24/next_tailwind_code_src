@@ -1,5 +1,5 @@
 import { Toast } from "flowbite-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 export type typeNotification = "error" | "success";
 export function ToastNotification({
   message,
@@ -12,9 +12,13 @@ export function ToastNotification({
   autoHideDuration?: number;
   type: typeNotification;
 }) {
-  setTimeout(() => {
-    onClose();
-  }, autoHideDuration);
+  useEffect(() => {
+    const id = setTimeout(() => {
+      onClose();
+    }, autoHideDuration);
+    return () => clearTimeout(id);
+  }, [autoHideDuration]);
+
   if (type === "error") {
     return (
       <Toast className="fixed bg-red-100 p-2 bottom-4 left-4">

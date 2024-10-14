@@ -35,6 +35,16 @@ export const userAPI = createApi({
       },
       invalidatesTags: ["parametre"],
     }),
+    loginUser: builder.mutation({
+      query: (obj) => {
+        return {
+          url: `/users/login`,
+          method: "POST",
+          body: obj,
+        };
+      },
+      invalidatesTags: ["parametre"],
+    }),
     updateUser: builder.mutation({
       query: ({ updateUser, id }) => {
         return {
@@ -61,6 +71,7 @@ export const userAPI = createApi({
 export const {
   useGetUserByIdQuery,
   useAddUserMutation,
+  useLoginUserMutation,
   useDeleteUserMutation,
   useUpdateUserMutation,
   useGetAllUserQuery,
